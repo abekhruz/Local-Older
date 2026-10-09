@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Order - Эко-Задания</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- QR-сканер -->
+    <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-recycle"></i>
+            Local Order
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="map.html">Карта пунктов</a></li>
+                <li><a href="tasks.html" class="active-link">Задания</a></li>
+                <li><a href="rewards.html">Награды</a></li>
+            </ul>
+        </nav>
+        <div id="auth-area"></div>
+    </header>
+
+    <div class="container">
+        <aside>
+            <div class="sidebar-menu">
+                <a href="index.html" class="back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> На главную
+                </a>
+            </div>
+        </aside>
+
+        <main>
+
+            <!-- ============================================
+                 ВЕРХНИЙ БЛОК: УРОВЕНЬ И ПРОГРЕСС
+                 ============================================ -->
+            <section class="tasks-hero">
+                <div class="tasks-hero-title">
+                    <h1>🎯 Эко-Задания</h1>
+                    <p>Выполняй задания, копи баллы, спасай планету</p>
+                </div>
+
+                <div class="hero-progress">
+                    <div class="progress-line">
+                        <span>Выполнено заданий</span>
+                        <span><b id="tasks-done">0</b> из <b id="tasks-total">12</b></span>
+                    </div>
+                    <div class="progress-bar-big">
+                        <div class="progress-fill-big" id="tasks-progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="level-card">
+                    <div class="level-badge" id="level-badge">🌱</div>
+                    <div class="level-info">
+                        <div class="level-name" id="level-name">Новичок</div>
+                        <div class="level-points"><b id="level-current">0</b> / <span id="level-next">500</span> баллов до следующего уровня</div>
+                        <div class="progress-bar-big">
+                            <div class="progress-fill-big" id="level-progress-bar" style="width: 0%; background: linear-gradient(90deg, #ffc107, #ff9800);"></div>
+                        </div>
+                    </div>
+                    <div class="level-points-big">
+                        <div class="points-value" id="user-total-points">0</div>
+                        <div class="points-label">баллов</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 ДОСТИЖЕНИЯ
+                 ============================================ -->
+            <section class="achievements-section">
+                <h2 class="section-title">
+                    🏆 Достижения
+                    <span class="section-subtitle" id="achievements-count">0 из 8</span>
+                </h2>
+                <div class="achievements-grid" id="achievements-grid"></div>
+            </section>
+
+            <!-- ============================================
+                 КОМАНДНЫЕ МИССИИ
+                 ============================================ -->
+            <section class="team-missions">
+                <h2 class="section-title">👥 Командные миссии</h2>
+
+                <!-- Если НЕ в команде -->
+                <div class="team-card" id="team-card-no">
+                    <div class="team-icon">🤝</div>
+                    <div class="team-info">
+                        <div class="team-title">Создайте команду</div>
+                        <div class="team-desc">Объединитесь с друзьями — вместе получите +500 баллов</div>
+                    </div>
+                    <div class="team-actions">
+                        <button class="team-invite-btn" id="create-team-btn">
+                            <i class="fa-solid fa-plus"></i> Создать команду
+                        </button>
+                        <button class="team-join-btn" id="join-team-btn">
+                            <i class="fa-solid fa-right-to-bracket"></i> Войти по коду
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Если В команде -->
+                <div class="team-card" id="team-card-yes" style="display:none;">
+                    <div class="team-icon">🏆</div>
+                    <div class="team-info">
+                        <div class="team-title" id="team-name-display">Моя команда</div>
+                        <div class="team-desc">Код команды для приглашения:</div>
+                        <div class="team-code-display" id="team-code-display">TEAM0000</div>
+                        <div class="team-members-list" id="team-members-list"></div>
+                        <div class="team-progress-text" id="team-progress-text">1 из 3 участников</div>
+                    </div>
+                    <button class="team-invite-btn" id="copy-team-code-btn">
+                        <i class="fa-solid fa-copy"></i> Скопировать код
+                    </button>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 ЧЕЛЛЕНДЖ ГОРОДА
+                 ============================================ -->
+            <section class="city-challenge">
+                <div class="city-challenge-bg">
+                    <div class="city-challenge-icon">🌍</div>
+                    <div class="city-challenge-content">
+                        <h3>Челлендж Ташкента: "10 тонн пластика"</h3>
+                        <p>Помогите городу собрать 10 тонн пластика в ноябре</p>
+                        <div class="city-progress">
+                            <div class="city-progress-bar">
+                                <div class="city-progress-fill" style="width: 64%;"></div>
+                            </div>
+                            <div class="city-progress-info">
+                                <span>6.4 т собрано</span>
+                                <span>64%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============================================
+                 ФИЛЬТРЫ ЗАДАНИЙ
+                 ============================================ -->
+            <section>
+                <h2 class="section-title">📋 Все задания</h2>
+
+                <div class="tasks-filters">
+                    <button class="filter-btn active" data-filter="all">Все</button>
+                    <button class="filter-btn" data-filter="once">
+                        <i class="fa-solid fa-flag"></i> Разовые
+                    </button>
+                    <button class="filter-btn" data-filter="daily">
+                        <i class="fa-solid fa-rotate"></i> Ежедневные
+                    </button>
+                    <button class="filter-btn" data-filter="weekly">
+                        <i class="fa-solid fa-calendar-week"></i> Еженедельные
+                    </button>
+                    <button class="filter-btn" data-filter="special">
+                        <i class="fa-solid fa-star"></i> Особые
+                    </button>
+                </div>
+
+                <div class="tasks-grid" id="tasks-grid"></div>
+            </section>
+
+            <!-- ============================================
+                 QR-КОДЫ ПУНКТОВ ПРИЁМА
+                 ============================================ -->
+            <section class="qr-showcase">
+                <h2 class="section-title">📱 QR-коды пунктов приёма</h2>
+                <p class="qr-subtitle">
+                    Распечатайте эти коды и повесьте на пунктах. Пользователь сканирует → получает баллы автоматически.
+                </p>
+
+                <div class="qr-grid" id="qr-grid"></div>
+
+                <button class="print-qr-btn" onclick="window.print()">
+                    <i class="fa-solid fa-print"></i> Распечатать все QR-коды
+                </button>
+            </section>
+
+            <!-- ============================================
+                 ТОП-10 ПОЛЬЗОВАТЕЛЕЙ
+                 ============================================ -->
+            <section class="leaderboard-section">
+                <h2 class="section-title">🏅 Топ-10 недели</h2>
+                <div class="leaderboard" id="leaderboard"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- ============================================
+         МОДАЛКА ЗАДАНИЯ
+         ============================================ -->
+    <div class="modal-overlay" id="task-modal">
+        <div class="modal">
+            <button class="modal-close" id="task-modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="task-modal-content"></div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         МОДАЛКА QR-СКАНЕРА
+         ============================================ -->
+    <div class="modal-overlay" id="qr-modal">
+        <div class="modal qr-modal">
+            <button class="modal-close" id="qr-modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="qr-content">
+                <h2>📱 Отсканируйте QR</h2>
+                <p class="modal-subtitle">Наведите камеру на QR-код пункта приёма</p>
+
+                <button class="modal-btn" id="start-scan">
+                    <i class="fa-solid fa-camera"></i> Включить камеру
+                </button>
+
+                <div id="qr-reader" style="width: 100%; margin: 15px 0;"></div>
+
+                <div class="qr-or">или введите код вручную</div>
+
+                <div class="qr-input-group">
+                    <input type="text" id="qr-input" placeholder="ORDER-XXXX-XX" maxlength="30">
+                    <button class="modal-btn" id="qr-submit">Проверить</button>
+                </div>
+
+                <div class="form-error" id="qr-error"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================
+         МОДАЛКА КОМАНДЫ
+         ============================================ -->
+    <div class="modal-overlay" id="team-modal">
+        <div class="modal">
+            <button class="modal-close" id="team-modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2 id="team-modal-title">Создать команду</h2>
+            <p class="modal-subtitle" id="team-modal-subtitle">Придумайте название для команды</p>
+
+            <label>
+                Название команды / Код
+                <input type="text" id="team-name-input" maxlength="30" placeholder="Например: Зелёный патруль">
+            </label>
+            <label>
+                Ваше имя в команде
+                <input type="text" id="team-member-name" maxlength="20" placeholder="Как вас зовут?">
+            </label>
+
+            <div class="form-error" id="team-error"></div>
+
+            <button class="modal-btn" id="team-submit">Создать</button>
+        </div>
+    </div>
+
+    <!-- ============================================
+         МОДАЛКА АВТОРИЗАЦИИ
+         ============================================ -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal">
+            <button class="modal-close" id="modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-tab="login">Вход</button>
+                <button class="modal-tab" data-tab="register">Регистрация</button>
+            </div>
+            <form class="modal-form active" id="form-login">
+                <h2>С возвращением! 👋</h2>
+                <p class="modal-subtitle">Войдите, чтобы сдавать вторсырьё</p>
+                <label>Email<input type="email" id="login-email" required></label>
+                <label>Пароль<input type="password" id="login-password" required></label>
+                <div class="form-error" id="login-error"></div>
+                <button type="submit" class="modal-btn">Войти</button>
+            </form>
+            <form class="modal-form" id="form-register">
+                <h2>Создать аккаунт 🌱</h2>
+                <p class="modal-subtitle">Присоединяйтесь к эко-сообществу</p>
+                <label>Имя<input type="text" id="reg-name" required maxlength="30"></label>
+                <label>Email<input type="email" id="reg-email" required></label>
+                <label>Пароль<input type="password" id="reg-password" required minlength="6"></label>
+                <label>Повторите пароль<input type="password" id="reg-password2" required minlength="6"></label>
+                <div class="form-error" id="reg-error"></div>
+                <button type="submit" class="modal-btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="tasks.js"></script>
+</body>
+</html>

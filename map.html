@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Order - Карта пунктов приёма</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="map-page">
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-recycle"></i>
+            Local Order
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="map.html" class="active-link">Карта пунктов</a></li>
+                <li><a href="tasks.html">Задания</a></li>
+              <li><a href="rewards.html">Награды</a></li>
+            </ul>
+        </nav>
+        <div id="auth-area"></div>
+    </header>
+
+    <!-- Основной контент карты -->
+    <div class="map-layout">
+        
+        <!-- ЛЕВАЯ ПАНЕЛЬ: Фильтры и список -->
+        <aside class="map-sidebar">
+            
+            <!-- Поиск -->
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search-input" placeholder="Поиск по адресу или названию...">
+            </div>
+
+            <!-- Кнопка "Моё местоположение" -->
+            <button class="geo-btn" id="geo-btn">
+                <i class="fa-solid fa-location-crosshairs"></i>
+                Определить моё местоположение
+            </button>
+
+            <!-- Фильтры категорий -->
+            <div class="filter-section">
+                <div class="filter-title">Категории</div>
+                <div class="filter-chips">
+                    <label class="chip chip-plastic">
+                        <input type="checkbox" value="plastic" checked>
+                        <span><i class="fa-solid fa-recycle"></i> Пластик</span>
+                    </label>
+                    <label class="chip chip-paper">
+                        <input type="checkbox" value="paper" checked>
+                        <span><i class="fa-solid fa-newspaper"></i> Бумага</span>
+                    </label>
+                    <label class="chip chip-glass">
+                        <input type="checkbox" value="glass" checked>
+                        <span><i class="fa-solid fa-wine-bottle"></i> Стекло</span>
+                    </label>
+                    <label class="chip chip-batteries">
+                        <input type="checkbox" value="batteries" checked>
+                        <span><i class="fa-solid fa-battery-full"></i> Батарейки</span>
+                    </label>
+                    <label class="chip chip-clothes">
+                        <input type="checkbox" value="clothes" checked>
+                        <span><i class="fa-solid fa-shirt"></i> Одежда</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Радиус -->
+            <div class="filter-section">
+                <div class="filter-title">Радиус поиска</div>
+                <div class="radius-options">
+                    <label><input type="radio" name="radius" value="0.5"> 500 м</label>
+                    <label><input type="radio" name="radius" value="1" checked> 1 км</label>
+                    <label><input type="radio" name="radius" value="3"> 3 км</label>
+                    <label><input type="radio" name="radius" value="10"> Всё</label>
+                </div>
+            </div>
+
+            <!-- Кнопка добавления пункта -->
+            <button class="add-point-btn" id="open-add-modal">
+                <i class="fa-solid fa-plus"></i>
+                Добавить пункт
+            </button>
+
+            <!-- Список найденных пунктов -->
+            <div class="points-list">
+                <div class="points-header">
+                    <span id="points-count">Найдено: 7</span>
+                </div>
+                <div id="points-list-container">
+                    <!-- Заполняется JS -->
+                </div>
+            </div>
+        </aside>
+
+        <!-- ПРАВАЯ ЧАСТЬ: Карта -->
+        <div class="map-wrapper">
+            <div id="map"></div>
+
+            <!-- Плавающая кнопка наверх -->
+            <button class="map-float-btn" id="reset-view" title="Показать все пункты">
+                <i class="fa-solid fa-expand"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Модалка добавления пункта -->
+    <div class="modal-overlay" id="add-modal">
+        <div class="modal">
+            <button class="modal-close" id="add-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2>Добавить пункт приёма 🗺️</h2>
+            <p class="modal-subtitle">Заполните информацию — после проверки пункт появится на карте</p>
+
+            <label>
+                Название пункта
+                <input type="text" id="add-name" required placeholder="Например: Фандомат на Юнусабаде" maxlength="60">
+            </label>
+            <label>
+                Адрес
+                <input type="text" id="add-address" required placeholder="Улица, дом" maxlength="100">
+            </label>
+            <label>
+                Что принимают
+                <div class="category-checks">
+                    <label class="mini-check"><input type="checkbox" value="plastic"> Пластик</label>
+                    <label class="mini-check"><input type="checkbox" value="paper"> Бумага</label>
+                    <label class="mini-check"><input type="checkbox" value="glass"> Стекло</label>
+                    <label class="mini-check"><input type="checkbox" value="batteries"> Батарейки</label>
+                    <label class="mini-check"><input type="checkbox" value="clothes"> Одежда</label>
+                </div>
+            </label>
+            <label>
+                Телефон (необязательно)
+                <input type="tel" id="add-phone" placeholder="+998 XX XXX XX XX">
+            </label>
+
+            <div class="form-error" id="add-error"></div>
+
+            <button class="modal-btn" id="add-submit">Отправить на проверку</button>
+        </div>
+    </div>
+
+    <!-- Модалка авторизации (такая же, как везде) -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal">
+            <button class="modal-close" id="modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-tab="login">Вход</button>
+                <button class="modal-tab" data-tab="register">Регистрация</button>
+            </div>
+            <form class="modal-form active" id="form-login">
+                <h2>С возвращением! 👋</h2>
+                <p class="modal-subtitle">Войдите, чтобы сдавать вторсырьё</p>
+                <label>Email<input type="email" id="login-email" required></label>
+                <label>Пароль<input type="password" id="login-password" required></label>
+                <div class="form-error" id="login-error"></div>
+                <button type="submit" class="modal-btn">Войти</button>
+            </form>
+            <form class="modal-form" id="form-register">
+                <h2>Создать аккаунт 🌱</h2>
+                <p class="modal-subtitle">Присоединяйтесь к эко-сообществу</p>
+                <label>Имя<input type="text" id="reg-name" required maxlength="30"></label>
+                <label>Email<input type="email" id="reg-email" required></label>
+                <label>Пароль<input type="password" id="reg-password" required minlength="6"></label>
+                <label>Повторите пароль<input type="password" id="reg-password2" required minlength="6"></label>
+                <div class="form-error" id="reg-error"></div>
+                <button type="submit" class="modal-btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="auth.js"></script>
+    <script src="map.js"></script>
+</body>
+</html>

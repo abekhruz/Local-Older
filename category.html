@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Order - Категория</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-recycle"></i>
+            Local Order
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="map.html">Карта пунктов</a></li>
+                <li><a href="tasks.html">Задания</a></li>
+                <li><a href="rewards.html">Награды</a></li>
+            </ul>
+        </nav>
+        <div id="auth-area">
+    <!-- Сюда JS подставит кнопки "Войти" или профиль пользователя -->
+        </div>
+    </header>
+
+    <div class="container">
+
+        <!-- Сайдбар (такой же, но для навигации) -->
+        <aside>
+            <div class="sidebar-menu">
+                <a href="index.html" class="back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> На главную
+                </a>
+            </div>
+        </aside>
+
+        <!-- Контент категории -->
+        <main>
+            
+            <!-- Хлебные крошки -->
+            <div class="breadcrumbs">
+                <a href="index.html">Главная</a>
+                <span>/</span>
+                <span id="breadcrumb-category">Пластик</span>
+                <span>/</span>
+                <span id="breadcrumb-sub" class="active-crumb">ПЭТ-бутылки</span>
+            </div>
+
+            <!-- Заголовок -->
+            <section class="category-hero">
+                <div class="category-icon" id="cat-icon">
+                    <i class="fa-solid fa-bottle-water"></i>
+                </div>
+                <div>
+                    <h1 id="cat-title">ПЭТ-бутылки</h1>
+                    <p id="cat-desc">Полиэтилентерефталат — самый распространённый вид пластика.</p>
+                </div>
+            </section>
+
+            <!-- Факт -->
+            <section class="fact-block">
+                <div class="fact-icon"><i class="fa-solid fa-lightbulb"></i></div>
+                <div>
+                    <div class="fact-title">Интересный факт</div>
+                    <div class="fact-text" id="cat-fact">Одна ПЭТ-бутылка разлагается 450 лет.</div>
+                </div>
+            </section>
+
+            <!-- Что принимают / не принимают -->
+            <section class="info-grid">
+                <div class="info-card info-accept">
+                    <div class="info-header">
+                        <i class="fa-solid fa-circle-check"></i> Что принимают
+                    </div>
+                    <ul id="cat-accept">
+                        <li>Чистые ПЭТ-бутылки</li>
+                    </ul>
+                </div>
+                <div class="info-card info-reject">
+                    <div class="info-header">
+                        <i class="fa-solid fa-circle-xmark"></i> Что НЕ принимают
+                    </div>
+                    <ul id="cat-reject">
+                        <li>Грязная тара</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Бонус -->
+            <section class="bonus-block">
+                <i class="fa-solid fa-coins"></i>
+                <div>
+                    <div class="bonus-title">Награда за сдачу</div>
+                    <div class="bonus-value" id="cat-bonus">30 баллов за 1 кг</div>
+                </div>
+            </section>
+
+            <!-- Карта пунктов -->
+            <section>
+                <h2 class="section-title">Пункты приёма рядом</h2>
+                <div class="map-container" style="height: 400px;">
+                    <div id="map"></div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="auth.js"></script>
+    <script src="category.js"></script>
+    
+</body>
+</html>

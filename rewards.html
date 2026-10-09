@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Order - Награды</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-recycle"></i>
+            Local Order
+        </div>
+        <nav>
+            <ul>
+                <li><a href="index.html">Главная</a></li>
+                <li><a href="map.html">Карта пунктов</a></li>
+                <li><a href="tasks.html">Задания</a></li>
+                <li><a href="rewards.html" class="active-link">Награды</a></li>
+            </ul>
+        </nav>
+        <div id="auth-area"></div>
+    </header>
+
+    <div class="container">
+        <aside>
+            <div class="sidebar-menu">
+                <a href="index.html" class="back-btn">
+                    <i class="fa-solid fa-arrow-left"></i> На главную
+                </a>
+            </div>
+        </aside>
+
+        <main>
+
+            <!-- ВЕРХНИЙ БЛОК -->
+            <section class="rewards-hero">
+                <div class="rewards-hero-icon">🎁</div>
+                <div class="rewards-hero-info">
+                    <h1>Награды за заботу о планете</h1>
+                    <p>Обменивай баллы на скидки, купоны и подарки от партнёров</p>
+                </div>
+                <div class="rewards-balance">
+                    <div class="rewards-balance-value" id="user-balance">0</div>
+                    <div class="rewards-balance-label">баллов</div>
+                </div>
+            </section>
+
+            <!-- СТАТИСТИКА -->
+            <section class="rewards-stats">
+                <div class="reward-stat-card">
+                    <div class="reward-stat-icon">🎯</div>
+                    <div class="reward-stat-value" id="stat-exchanges">0</div>
+                    <div class="reward-stat-label">Обменяно наград</div>
+                </div>
+                <div class="reward-stat-card">
+                    <div class="reward-stat-icon">💎</div>
+                    <div class="reward-stat-value" id="stat-spent">0</div>
+                    <div class="reward-stat-label">Потрачено баллов</div>
+                </div>
+                <div class="reward-stat-card">
+                    <div class="reward-stat-icon">🏆</div>
+                    <div class="reward-stat-value" id="stat-saved">0 сум</div>
+                    <div class="reward-stat-label">Сэкономлено</div>
+                </div>
+            </section>
+
+            <!-- ЕЖЕДНЕВНАЯ АКЦИЯ -->
+            <section class="daily-deal-section" id="daily-deal-section"></section>
+
+            <!-- ПАРТНЁРЫ -->
+            <section class="partners-section">
+                <h2 class="section-title">🤝 Наши партнёры</h2>
+                <div class="partners-grid" id="partners-grid"></div>
+            </section>
+
+            <!-- АУКЦИОНЫ -->
+            <section class="auction-section">
+                <h2 class="section-title">🔨 Аукционы недели</h2>
+                <p class="section-hint">Редкие награды. Побеждает тот, кто предложит больше баллов за 24 часа</p>
+                <div class="auction-grid" id="auction-grid"></div>
+            </section>
+
+            <!-- КАТАЛОГ НАГРАД -->
+            <section>
+                <h2 class="section-title">🛍️ Все награды</h2>
+
+                <div class="rewards-filters">
+                    <button class="filter-btn active" data-filter="all">
+                        <i class="fa-solid fa-gift"></i> Все
+                    </button>
+                    <button class="filter-btn" data-filter="food">
+                        <i class="fa-solid fa-mug-hot"></i> Еда
+                    </button>
+                    <button class="filter-btn" data-filter="shops">
+                        <i class="fa-solid fa-cart-shopping"></i> Магазины
+                    </button>
+                    <button class="filter-btn" data-filter="fun">
+                        <i class="fa-solid fa-film"></i> Развлечения
+                    </button>
+                    <button class="filter-btn" data-filter="eco">
+                        <i class="fa-solid fa-leaf"></i> Эко-товары
+                    </button>
+                    <button class="filter-btn" data-filter="charity">
+                        <i class="fa-solid fa-hand-holding-heart"></i> Помощь
+                    </button>
+                    <button class="filter-btn" data-filter="vip">
+                        <i class="fa-solid fa-crown"></i> VIP
+                    </button>
+                </div>
+
+                <div class="rewards-grid" id="rewards-grid"></div>
+            </section>
+
+            <!-- МОИ КУПОНЫ -->
+            <section class="my-coupons-section">
+                <h2 class="section-title">🎫 Мои купоны</h2>
+                <div class="coupons-list" id="coupons-list"></div>
+            </section>
+
+            <!-- ИСТОРИЯ -->
+            <section>
+                <h2 class="section-title">📜 История обменов</h2>
+                <div class="exchanges-list" id="exchanges-list"></div>
+            </section>
+
+            <!-- СТАТЬ ПАРТНЁРОМ -->
+            <section class="partner-cta">
+                <div class="partner-cta-bg">
+                    <div class="partner-cta-icon">🏢</div>
+                    <div class="partner-cta-content">
+                        <h3>Хотите стать партнёром?</h3>
+                        <p>Разместите свои награды на нашей платформе и привлекайте эко-активных клиентов</p>
+                        <button class="partner-cta-btn" id="become-partner-btn">
+                            <i class="fa-solid fa-handshake"></i> Стать партнёром
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- МОДАЛКА ОБМЕНА -->
+    <div class="modal-overlay" id="exchange-modal">
+        <div class="modal">
+            <button class="modal-close" id="exchange-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="exchange-content"></div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА КУПОНА -->
+    <div class="modal-overlay" id="coupon-modal">
+        <div class="modal coupon-modal">
+            <button class="modal-close" id="coupon-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="coupon-content"></div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА АУКЦИОНА -->
+    <div class="modal-overlay" id="auction-modal">
+        <div class="modal">
+            <button class="modal-close" id="auction-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="auction-content"></div>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА ПАРТНЁРА -->
+    <div class="modal-overlay" id="partner-modal">
+        <div class="modal">
+            <button class="modal-close" id="partner-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <h2>🏢 Заявка партнёра</h2>
+            <p class="modal-subtitle">Заполните данные — мы свяжемся с вами</p>
+
+            <label>Название компании<input type="text" id="p-name" required maxlength="60"></label>
+            <label>Ваше имя<input type="text" id="p-contact" required maxlength="40"></label>
+            <label>Телефон<input type="tel" id="p-phone" required placeholder="+998 XX XXX XX XX"></label>
+            <label>Email<input type="email" id="p-email" required></label>
+            <label>Награда, которую хотите предложить
+                <textarea id="p-desc" rows="3" placeholder="Например: скидка 10% на кофе" maxlength="200"></textarea>
+            </label>
+
+            <div class="form-error" id="partner-error"></div>
+            <button class="modal-btn" id="partner-submit">Отправить заявку</button>
+        </div>
+    </div>
+
+    <!-- МОДАЛКА АВТОРИЗАЦИИ -->
+    <div class="modal-overlay" id="auth-modal">
+        <div class="modal">
+            <button class="modal-close" id="modal-close">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-tabs">
+                <button class="modal-tab active" data-tab="login">Вход</button>
+                <button class="modal-tab" data-tab="register">Регистрация</button>
+            </div>
+            <form class="modal-form active" id="form-login">
+                <h2>С возвращением! 👋</h2>
+                <p class="modal-subtitle">Войдите, чтобы обменивать баллы</p>
+                <label>Email<input type="email" id="login-email" required></label>
+                <label>Пароль<input type="password" id="login-password" required></label>
+                <div class="form-error" id="login-error"></div>
+                <button type="submit" class="modal-btn">Войти</button>
+            </form>
+            <form class="modal-form" id="form-register">
+                <h2>Создать аккаунт 🌱</h2>
+                <p class="modal-subtitle">Присоединяйтесь к эко-сообществу</p>
+                <label>Имя<input type="text" id="reg-name" required maxlength="30"></label>
+                <label>Email<input type="email" id="reg-email" required></label>
+                <label>Пароль<input type="password" id="reg-password" required minlength="6"></label>
+                <label>Повторите пароль<input type="password" id="reg-password2" required minlength="6"></label>
+                <div class="form-error" id="reg-error"></div>
+                <button type="submit" class="modal-btn">Зарегистрироваться</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+    <script src="rewards.js"></script>
+</body>
+</html>
